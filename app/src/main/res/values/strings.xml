@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MuseumMaster</string>
+    <string name="title">MuseumMaster</string>
+    <string name="email">Введите ваш email</string>
+    <string name="Enter">Войти</string>
+    <string name="example_gmai">example@gmai.com</string>
+    <string name="password">Пароль</string>
+    <string name="InputPassword">Введите пароль</string>
+    <string name="new_ac">Новый пользователь?</string>
+    <string name="Continue">Продолжить</string>
+    <string name="create_ac"><u>Создать аккаунт</u></string>
+    <string name="question_reg">Уже зарегистрированы?</string>
+    <string name="aut"><u>Войти</u></string>
+    <string name="newpassword">Придумайте пароль</string>
+    <string name="acceptpasswod">Подтвердите пароль</string>
+    <string name="pozdr">Поздравляем!</string>
+    <string name="registration">Регистрация прошла успешно!</string>
+    <string-array name="tariff_options">
+        <item>Взрослый</item>
+        <item>Детский(до 10 лет)</item>
+        <item>Льготный(Пенсионеры, студенты, школьники, инвалиды)</item>
+    </string-array>
+</resources>

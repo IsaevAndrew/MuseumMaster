@@ -20,4 +20,6 @@
         <item>Детский(до 10 лет)</item>
         <item>Льготный(Пенсионеры, студенты, школьники, инвалиды)</item>
     </string-array>
+    <string name="play">PLAY</string>
+    <string name="pause">PAUSE</string>
 </resources>

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/yellow">
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,15 +16,53 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/actionbar_exhibit"
+                tools:ignore="MissingConstraints" />
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_yellow"
+                android:src="@drawable/arrow_back"
+                app:layout_constraintStart_toStartOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/like"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/favorite"
+                android:background="@color/dark_yellow"
+                android:drawableEnd="@drawable/like_selection"
+                app:layout_constraintEnd_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/blue"
+                app:layout_constraintEnd_toEndOf="@+id/imageView7"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/imageView"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -34,118 +74,43 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView8">
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <TextView
+                    <SeekBar
+                        android:layout_marginTop="15dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/seekBar"
+                        tools:ignore="MissingConstraints" />
+                    <Button
+                        android:layout_margin="15dp"
+                        android:text="@string/play"
+                        android:textSize="16dp"
+                        android:backgroundTint="@color/blue"
+                        android:textStyle="bold"
+                        android:id="@+id/buttonPlay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="5dp"
-                        android:textColor="@color/blue"
-                        android:text="Год создания" />
-
+                        android:layout_gravity="center"
+                        tools:ignore="MissingConstraints" />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Здесь будет год создания"
-                        android:textColor="@color/blue"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:textColor="@color/blue"
-                        android:text="Размеры" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:textColor="@color/blue"
-                        android:text="Здесь будет размер" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:textColor="@color/blue"
-                        android:text="Техника" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:textColor="@color/blue"
-                        android:text="Здесь будет техника" />
-
-                    <TextView
+                        android:id="@+id/textViewDescription"
                         android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="Общая информация" />
-
-                    <TextView
-                        android:textColor="@color/blue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Здесь будет информация о экспонате, но пока для проверки scrolla почитайте про Путина. Владимир Владимирович Путин - российский политический деятель, находящийся у власти уже более 20 лет. Он родился 7 октября 1952 года в Ленинграде (ныне Санкт-Петербург). В 1975 году Путин окончил юридический факультет Ленинградского государственного университета, после чего работал в органах государственной безопасности. В 1999 году Путин стал премьер-министром России, а через несколько месяцев - и временным исполняющим обязанности президента. В 2000 году он был избран президентом России, а затем переизбран в 2004, 2012 и 2018 годах. В 2008-2012 годах Путин занимал пост премьер-министра России. Путин проводит политику, направленную на укрепление внутренней стабильности и увеличение российского влияния на международной арене. Он также активно участвует в решении многих внутренних и внешних проблем России, включая экономические, социальные и политические вопросы. За время своего правления Путин стал одним из самых влиятельных и узнаваемых политических лидеров в мире. Его имя стало символом сильной и независимой России, а также вызывает контраверсии и споры в западном обществе." />
+                        android:text="" />
                 </LinearLayout>
             </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/actionbar_exhibit" />
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_yellow"
-        android:src="@drawable/arrow_back"
-        app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/like"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/favorite"
-        android:background="@color/dark_yellow"
-        android:drawableEnd="@drawable/like_selection"
-        app:layout_constraintEnd_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/id"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Экспонат с id="
-        android:textColor="@color/blue"
-        app:layout_constraintEnd_toEndOf="@+id/imageView7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

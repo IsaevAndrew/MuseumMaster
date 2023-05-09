@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,73 +24,15 @@ import edu.example.museummaster.data.data_sourses.category.models.NewsElement;
 import edu.example.museummaster.ui.viewmodels.NewsViewModel;
 
 public class Home extends Fragment {
-//    private Context context;
-//    private NewsAdapter mAdapter;
-//    private List<NewsElement> mNewsList;
+    private RecyclerView recyclerView;
+    private NewsAdapter adapter;
+    private NewsViewModel newsViewModel;
     Fragment fragment14;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.home:
-                    return true;
-                case R.id.search:
-                    fragment14 = new Search();
-                    FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
-                    transaction2.replace(R.id.container, fragment14).addToBackStack(null);
-                    transaction2.commit();
-                    return true;
-                case R.id.ticket:
-                    fragment14 = new Ticket();
-                    FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
-                    transaction3.replace(R.id.container, fragment14).addToBackStack(null);
-                    transaction3.commit();
-                    return true;
-                case R.id.scanner:
-                    fragment14 = new Scanner();
-                    FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
-                    transaction4.replace(R.id.container, fragment14).addToBackStack(null);
-                    transaction4.commit();
-                    return true;
-                case R.id.profile:
-                    fragment14 = new Profile();
-                    FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
-                    transaction5.replace(R.id.container, fragment14).addToBackStack(null);
-                    transaction5.commit();
-                    return true;
-            }
-            return false;
-        });
-        return view;
-    }
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 //                             Bundle savedInstanceState) {
 //        View view = inflater.inflate(R.layout.fragment_home, container, false);
-//        mNewsList = getNewsList();
-//
-//        // Создать экземпляр адаптера и назначить его RecyclerView
-//        mAdapter = new NewsAdapter(mNewsList);
-//        RecyclerView mRecyclerView = view.findViewById(R.id.recyclerView);
-//        mRecyclerView.setAdapter(mAdapter);
-//
-//        // Назначить менеджер макетов RecyclerView
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        mRecyclerView.setLayoutManager(layoutManager);
-//
-//        // Назначить слушатель кликов на элементы списка
-//        mAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                // Обработка клика на элементе списка
-//            }
-//        });
 //        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
 //        bottomNavigationView.setSelectedItemId(R.id.home);
 //        bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -125,10 +69,56 @@ public class Home extends Fragment {
 //        return view;
 //    }
 
-//    private List<NewsElement> getNewsList() {
-//        // Получить список данных из источника данных (например, базы данных или сети)
-//        List<NewsElement> newsList = new ArrayList<>();
-//        // ...
-//        return newsList;
-//    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new NewsAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
+        newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+        newsViewModel.getAllNewsLiveData().observe(getViewLifecycleOwner(), newsList -> {
+            adapter.setNewsList(newsList);
+        });
+
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.home:
+                    return true;
+                case R.id.search:
+                    fragment14 = new Search();
+                    FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
+                    transaction2.replace(R.id.container, fragment14).addToBackStack(null);
+                    transaction2.commit();
+                    return true;
+                case R.id.ticket:
+                    fragment14 = new Ticket();
+                    FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
+                    transaction3.replace(R.id.container, fragment14).addToBackStack(null);
+                    transaction3.commit();
+                    return true;
+                case R.id.scanner:
+                    fragment14 = new Scanner();
+                    FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
+                    transaction4.replace(R.id.container, fragment14).addToBackStack(null);
+                    transaction4.commit();
+                    return true;
+                case R.id.profile:
+                    fragment14 = new Profile();
+                    FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
+                    transaction5.replace(R.id.container, fragment14).addToBackStack(null);
+                    transaction5.commit();
+                    return true;
+            }
+            return false;
+        });
+        return view;
+    }
 }

@@ -146,7 +146,6 @@ public class Scanner extends Fragment {
                         FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
                         transaction5.replace(R.id.container, fragment14).addToBackStack(null);
                         transaction5.commit();
-                        Toast.makeText(activity, result.getText(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

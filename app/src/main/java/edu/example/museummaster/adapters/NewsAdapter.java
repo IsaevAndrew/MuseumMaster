@@ -15,66 +15,48 @@ import java.util.List;
 import edu.example.museummaster.R;
 import edu.example.museummaster.data.data_sourses.category.models.NewsElement;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
-    private List<NewsElement> mDataset;
-    private OnItemClickListener mListener;
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
+    private List<NewsElement> newsList;
+
+    public NewsAdapter(List<NewsElement> newsList) {
+        this.newsList = newsList;
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTitleTextView;
-        public TextView mDescriptionTextView;
-        public TextView mDateTextView;
-
-        public MyViewHolder(View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            mTitleTextView = itemView.findViewById(R.id.title);
-            mDescriptionTextView = itemView.findViewById(R.id.description);
-            mDateTextView = itemView.findViewById(R.id.date);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    public NewsAdapter(List<NewsElement> myDataset) {
-        mDataset = myDataset;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-
+    @NonNull
     @Override
-    public NewsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.news_item, parent, false);
-        MyViewHolder vh = new MyViewHolder(v, mListener);
-        return vh;
+    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
+        return new NewsViewHolder(view);
     }
 
+    public void setNewsList(List<NewsElement> newsList) {
+        this.newsList = newsList;
+        notifyDataSetChanged();
+    }
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        NewsElement currentItem = mDataset.get(position);
-        holder.mTitleTextView.setText(currentItem.getTitle());
-        holder.mDescriptionTextView.setText(currentItem.getDescription());
-        holder.mDateTextView.setText(currentItem.getDate());
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+        NewsElement currentNews = newsList.get(position);
+        holder.titleTextView.setText(currentNews.getTitle());
+        holder.descriptionTextView.setText(currentNews.getDescription());
+        holder.dateTextView.setText(currentNews.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return newsList.size();
+    }
+
+    public static class NewsViewHolder extends RecyclerView.ViewHolder {
+        public TextView titleTextView;
+        public TextView descriptionTextView;
+        public TextView dateTextView;
+
+        public NewsViewHolder(@NonNull View itemView) {
+            super(itemView);
+            titleTextView = itemView.findViewById(R.id.title);
+            descriptionTextView = itemView.findViewById(R.id.description);
+            dateTextView = itemView.findViewById(R.id.date);
+        }
     }
 }

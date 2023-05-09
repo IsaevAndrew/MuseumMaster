@@ -1,5 +1,4 @@
 package edu.example.museummaster.data.data_sourses.category.room.entites;
-
 import android.util.Log;
 
 import androidx.room.Entity;
@@ -7,7 +6,6 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "news_table")
 public class NewsElement {
-
     @PrimaryKey(autoGenerate = true)
     public int id;
     private String title;

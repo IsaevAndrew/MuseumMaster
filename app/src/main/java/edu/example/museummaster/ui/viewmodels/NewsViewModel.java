@@ -1,7 +1,5 @@
 package edu.example.museummaster.ui.viewmodels;
 
-//import ru.example.samsungproject.sql.NewsDB;
-//import ru.example.samsungproject.sql.NewsDao;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -14,29 +12,27 @@ import edu.example.museummaster.data.data_sourses.category.models.NewsElement;
 import edu.example.museummaster.data.data_sourses.category.repositories.NewsRepository;
 
 public class NewsViewModel extends AndroidViewModel {
-
-    private NewsRepository mRepository;
-    private LiveData<List<NewsElement>> mAllNews;
+    private NewsRepository newsRepository;
+    private LiveData<List<NewsElement>> allNewsLiveData;
 
     public NewsViewModel(@NonNull Application application) {
         super(application);
-        mRepository = new NewsRepository(application);
-        mAllNews = mRepository.getAllNews();
+        newsRepository = new NewsRepository(application);
+        allNewsLiveData = newsRepository.getAllNewsLiveData();
     }
 
-    public LiveData<List<NewsElement>> getAllNews() {
-        return mAllNews;
+    public LiveData<List<NewsElement>> getAllNewsLiveData() {
+        return allNewsLiveData;
     }
 
-    public void insert(NewsElement newsElement) {
-        mRepository.insert(newsElement);
+    public void insert(NewsElement news) {
+        newsRepository.insert(news);
     }
 
-    public void delete(NewsElement newsElement) {
-        mRepository.delete(newsElement);
+    public void delete(NewsElement news) {
+        newsRepository.delete(news);
     }
-
-    public void deleteAllNews() {
-        mRepository.deleteAllNews();
+    public void deleteAll() {
+        newsRepository.deleteAll();
     }
 }

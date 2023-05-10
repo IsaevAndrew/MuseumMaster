@@ -1,6 +1,8 @@
 package edu.example.museummaster.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import edu.example.museummaster.R;
-import edu.example.museummaster.databinding.FragmentAuthorizationBinding;
 import edu.example.museummaster.databinding.FragmentProfileBinding;
 
 public class Profile extends Fragment {
@@ -57,7 +57,68 @@ public class Profile extends Fragment {
             }
             return false;
         });
+        view.findViewById(R.id.change_password).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, new Change_password()).addToBackStack(null)
+                        .commit();
+            }
+        });
+        view.findViewById(R.id.favourite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Переход на второй фрагмент
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, new Favourite()).addToBackStack(null)
+                        .commit();
+            }
+        });
+        view.findViewById(R.id.future_tickets).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Переход на второй фрагмент
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, new My_tickets()).addToBackStack(null)
+                        .commit();
+            }
+        });
+        view.findViewById(R.id.last_tickets).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Переход на второй фрагмент
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, new History_of_tickets()).addToBackStack(null)
+                        .commit();
+            }
+
+        });
+        view.findViewById(R.id.faq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Информация")
+                        .setMessage("Данное приложение создано в рамках проекта IT Академия Samsung")
+                        .setPositiveButton("Закрыть", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Обработка нажатия кнопки "Закрыть"
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
         view.findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Переход на второй фрагмент
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, new First()).addToBackStack(null)
+                        .commit();
+            }
+
+        });
+        view.findViewById(R.id.delete_account).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Переход на второй фрагмент

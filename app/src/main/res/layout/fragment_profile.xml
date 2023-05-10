@@ -63,8 +63,7 @@
             android:layout_marginRight="70dp"
             android:weightSum="100">
             <Button
-
-                android:id="@+id/edit_profile_button"
+                android:id="@+id/change_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Изменить пароль"
@@ -84,20 +83,20 @@
                 android:backgroundTint="@color/black_green"
                 android:layout_gravity="center"/>
             <Button
-                android:id="@+id/tickets"
+                android:id="@+id/future_tickets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Заказы"
+                android:text="Мои билеты"
                 android:textColor="@color/yellow"
                 tools:ignore="MissingConstraints"
                 android:layout_margin="5dp"
                 android:backgroundTint="@color/black_green"
                 android:layout_gravity="center"/>
             <Button
-                android:id="@+id/feedback"
+                android:id="@+id/last_tickets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Отзыв о приложении"
+                android:text="История покупок"
                 android:textColor="@color/yellow"
                 tools:ignore="MissingConstraints"
                 android:layout_margin="5dp"
@@ -120,6 +119,16 @@
                 android:textColor="@color/yellow"
                 android:backgroundTint="@color/red"
                 android:text="Выйти из аккаунта"
+                android:layout_margin="5dp"
+                tools:ignore="MissingConstraints"
+                android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/yellow"
+                android:backgroundTint="@color/red"
+                android:text="Удалить аккаунт"
                 android:layout_margin="5dp"
                 tools:ignore="MissingConstraints"
                 android:layout_gravity="center"/>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -97,4 +98,10 @@ public class Ticket extends Fragment {
         });
         return view;
     }
+    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            requireActivity().moveTaskToBack(true);
+        }
+    };
 }

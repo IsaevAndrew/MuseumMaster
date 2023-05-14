@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -169,4 +170,10 @@ public class Scanner extends Fragment {
         mCodeScanner.releaseResources();
         super.onPause();
     }
+    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            requireActivity().moveTaskToBack(true);
+        }
+    };
 }

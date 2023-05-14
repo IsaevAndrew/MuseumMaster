@@ -52,6 +52,7 @@
 
         <EditText
             android:textColor="@color/black_green"
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/example_gmai" />
@@ -64,6 +65,7 @@
 
         <EditText
             android:textColor="@color/black_green"
+            android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/password" />

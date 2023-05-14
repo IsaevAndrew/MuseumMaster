@@ -7,23 +7,31 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import edu.example.museummaster.R;
 import edu.example.museummaster.databinding.FragmentProfileBinding;
+import edu.example.museummaster.ui.viewmodels.AuthState;
+import edu.example.museummaster.ui.viewmodels.AuthViewModel;
 
 public class Profile extends Fragment {
     private Context context;
+    private AuthViewModel authViewModel;
     FragmentProfileBinding mBinding;
     Fragment fragment14;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentProfileBinding.inflate(inflater, container, false);
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = mBinding.getRoot();
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
 
@@ -108,26 +116,53 @@ public class Profile extends Fragment {
                         .show();
             }
         });
-        view.findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Переход на второй фрагмент
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new First()).addToBackStack(null)
-                        .commit();
-            }
-
-        });
-        view.findViewById(R.id.delete_account).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Переход на второй фрагмент
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new First()).addToBackStack(null)
-                        .commit();
-            }
-
-        });
         return view;
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        Button logoutButton = mBinding.logoutButton;
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutUser();
+            }
+        });
+        Button deleteAccountButton = mBinding.deleteAccount;
+        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteAccount();
+            }
+        });
+
+        authViewModel.getAuthStateLiveData().observe(getViewLifecycleOwner(), authState -> {
+            if (authState == AuthState.UNAUTHENTICATED) {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.container, new First()).addToBackStack(null)
+                        .commit();
+            }
+        });
+
+    }
+    private void deleteAccount() {
+        authViewModel.deleteAccount();
+    }
+
+    private void logoutUser() {
+        authViewModel.logoutUser();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBinding = null;
+    }
+
+    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            requireActivity().moveTaskToBack(true);
+        }
+    };
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/scanner"
     android:background="@color/yellow"
-    tools:context=".ui.Scanner">
+    tools:context=".ui.ScannerFragment">
     <com.budiyev.android.codescanner.CodeScannerView
             android:id="@+id/scanner_view"
             android:layout_width="match_parent"

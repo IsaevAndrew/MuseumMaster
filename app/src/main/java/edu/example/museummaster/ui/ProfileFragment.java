@@ -17,12 +17,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import edu.example.museummaster.R;
 import edu.example.museummaster.databinding.FragmentProfileBinding;
 import edu.example.museummaster.ui.viewmodels.AuthState;
 import edu.example.museummaster.ui.viewmodels.AuthViewModel;
 
-public class Profile extends Fragment {
+public class ProfileFragment extends Fragment {
     private Context context;
     private AuthViewModel authViewModel;
     FragmentProfileBinding mBinding;
@@ -32,31 +35,33 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = mBinding.getRoot();
+
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
-
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mBinding.userEmailTextView.setText(currentUser.getEmail());
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
-                    fragment14 = new Home();
+                    fragment14 = new HomeFragment();
                     FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
                     transaction1.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction1.commit();
                     return true;
                 case R.id.search:
-                    fragment14 = new Search();
+                    fragment14 = new SearchFragment();
                     FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                     transaction2.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction2.commit();
                     return true;
                 case R.id.ticket:
-                    fragment14 = new Ticket();
+                    fragment14 = new TicketFragment();
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                     transaction3.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction3.commit();
                     return true;
                 case R.id.scanner:
-                    fragment14 = new Scanner();
+                    fragment14 = new ScannerFragment();
                     FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
                     transaction4.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction4.commit();
@@ -116,6 +121,12 @@ public class Profile extends Fragment {
                         .show();
             }
         });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                requireActivity().moveTaskToBack(true);
+            }
+        });
         return view;
     }
     @Override
@@ -159,10 +170,4 @@ public class Profile extends Fragment {
         mBinding = null;
     }
 
-    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-        @Override
-        public void handleOnBackPressed() {
-            requireActivity().moveTaskToBack(true);
-        }
-    };
 }

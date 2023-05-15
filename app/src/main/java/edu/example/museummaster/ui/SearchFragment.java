@@ -13,10 +13,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import edu.example.museummaster.R;
-
-public class Search extends Fragment {
+public class SearchFragment extends Fragment {
     private Context context;
     Fragment fragment14;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class Search extends Fragment {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
-                    fragment14 = new Home();
+                    fragment14 = new HomeFragment();
                     FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
                     transaction1.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction1.commit();
@@ -34,19 +34,19 @@ public class Search extends Fragment {
                 case R.id.search:
                     return true;
                 case R.id.ticket:
-                    fragment14 = new Ticket();
+                    fragment14 = new TicketFragment();
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                     transaction3.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction3.commit();
                     return true;
                 case R.id.scanner:
-                    fragment14 = new Scanner();
+                    fragment14 = new ScannerFragment();
                     FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
                     transaction4.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction4.commit();
                     return true;
                 case R.id.profile:
-                    fragment14 = new Profile();
+                    fragment14 = new ProfileFragment();
                     FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
                     transaction5.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction5.commit();
@@ -54,12 +54,14 @@ public class Search extends Fragment {
             }
             return false;
         });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                requireActivity().moveTaskToBack(true);
+            }
+        });
         return view;
     }
-    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-        @Override
-        public void handleOnBackPressed() {
-            requireActivity().moveTaskToBack(true);
-        }
-    };
+
+
 }

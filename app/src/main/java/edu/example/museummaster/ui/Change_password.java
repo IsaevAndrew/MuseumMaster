@@ -54,7 +54,7 @@ public class Change_password extends Fragment {
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Profile()).addToBackStack(null)
+                        .replace(R.id.container, new ProfileFragment()).addToBackStack(null)
                         .commit();
             }
         });
@@ -88,7 +88,7 @@ public class Change_password extends Fragment {
                                         if (passwordUpdateTask.isSuccessful()) {
                                             Toast.makeText(requireContext(), "Password successfully changed", Toast.LENGTH_SHORT).show();
                                             getParentFragmentManager().beginTransaction()
-                                                    .replace(R.id.container, new Profile()).addToBackStack(null)
+                                                    .replace(R.id.container, new ProfileFragment()).addToBackStack(null)
                                                     .commit();
                                         } else {
                                             Toast.makeText(requireContext(), "Failed to change password. Please try again.", Toast.LENGTH_SHORT).show();

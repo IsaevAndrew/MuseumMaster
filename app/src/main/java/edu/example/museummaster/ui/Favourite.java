@@ -31,7 +31,7 @@ public class Favourite extends Fragment{
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Profile()).addToBackStack(null)
+                        .replace(R.id.container, new ProfileFragment()).addToBackStack(null)
                         .commit();
             }
         });

@@ -1,6 +1,5 @@
 package edu.example.museummaster.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +11,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.example.museummaster.R;
 import edu.example.museummaster.adapters.NewsAdapter;
-import edu.example.museummaster.data.data_sourses.category.models.NewsElement;
 import edu.example.museummaster.ui.viewmodels.NewsViewModel;
 
-public class Home extends Fragment {
+public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private NewsAdapter adapter;
     private NewsViewModel newsViewModel;
@@ -94,25 +90,25 @@ public class Home extends Fragment {
                 case R.id.home:
                     return true;
                 case R.id.search:
-                    fragment14 = new Search();
+                    fragment14 = new SearchFragment();
                     FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                     transaction2.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction2.commit();
                     return true;
                 case R.id.ticket:
-                    fragment14 = new Ticket();
+                    fragment14 = new TicketFragment();
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                     transaction3.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction3.commit();
                     return true;
                 case R.id.scanner:
-                    fragment14 = new Scanner();
+                    fragment14 = new ScannerFragment();
                     FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
                     transaction4.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction4.commit();
                     return true;
                 case R.id.profile:
-                    fragment14 = new Profile();
+                    fragment14 = new ProfileFragment();
                     FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
                     transaction5.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction5.commit();
@@ -120,13 +116,12 @@ public class Home extends Fragment {
             }
             return false;
         });
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 requireActivity().moveTaskToBack(true);
             }
-        };
-
+        });
         return view;
     }
 

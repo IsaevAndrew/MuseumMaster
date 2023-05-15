@@ -1,7 +1,6 @@
 package edu.example.museummaster.ui;
 
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,16 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.bumptech.glide.Glide;
 
 import edu.example.museummaster.R;
 import edu.example.museummaster.databinding.FragmentExhibitBinding;
@@ -104,7 +99,7 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Scanner()  ).addToBackStack(null)
+                        .replace(R.id.container, new ScannerFragment()  ).addToBackStack(null)
                         .commit();
             }
         });

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/ticket"
     android:background="@color/yellow"
-    tools:context=".ui.Ticket">
+    tools:context=".ui.TicketFragment">
 
 
     <ScrollView

@@ -64,7 +64,7 @@ public class Authorization extends Fragment {
             if (authState == AuthState.AUTHENTICATED) {
                 // Переход на экран после успешной авторизации
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Home())
+                        .replace(R.id.container, new HomeFragment())
                         .commit();
             }
         });

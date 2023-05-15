@@ -28,7 +28,7 @@ public class CorrectRegister extends Fragment {
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Home()).addToBackStack(null)
+                        .replace(R.id.container, new HomeFragment()).addToBackStack(null)
                         .commit();
             }
         });

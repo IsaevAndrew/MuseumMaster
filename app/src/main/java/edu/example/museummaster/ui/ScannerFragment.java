@@ -1,7 +1,5 @@
 package edu.example.museummaster.ui;
 
-import static androidx.core.content.PermissionChecker.checkSelfPermission;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +25,7 @@ import com.google.zxing.Result;
 
 import edu.example.museummaster.R;
 
-public class Scanner extends Fragment {
+public class ScannerFragment extends Fragment {
     private CodeScanner mCodeScanner;
     private Context context;
     Fragment fragment14;
@@ -91,19 +89,19 @@ public class Scanner extends Fragment {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
-                    fragment14 = new Home();
+                    fragment14 = new HomeFragment();
                     FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
                     transaction1.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction1.commit();
                     return true;
                 case R.id.search:
-                    fragment14 = new Search();
+                    fragment14 = new SearchFragment();
                     FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                     transaction2.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction2.commit();
                     return true;
                 case R.id.ticket:
-                    fragment14 = new Ticket();
+                    fragment14 = new TicketFragment();
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                     transaction3.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction3.commit();
@@ -111,7 +109,7 @@ public class Scanner extends Fragment {
                 case R.id.scanner:
                     return true;
                 case R.id.profile:
-                    fragment14 = new Profile();
+                    fragment14 = new ProfileFragment();
                     FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
                     transaction5.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction5.commit();
@@ -157,6 +155,12 @@ public class Scanner extends Fragment {
                 mCodeScanner.startPreview();
             }
         });
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                requireActivity().moveTaskToBack(true);
+            }
+        });
         return view;
     }
     @Override
@@ -170,10 +174,5 @@ public class Scanner extends Fragment {
         mCodeScanner.releaseResources();
         super.onPause();
     }
-    OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-        @Override
-        public void handleOnBackPressed() {
-            requireActivity().moveTaskToBack(true);
-        }
-    };
+
 }

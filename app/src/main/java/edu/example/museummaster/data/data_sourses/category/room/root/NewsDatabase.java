@@ -26,9 +26,9 @@ public abstract class NewsDatabase extends RoomDatabase {
     public static synchronized NewsDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                            NewsDatabase.class, "news_database6").addCallback(sRoomDatabaseCallback)
+                            NewsDatabase.class, "news").addCallback(sRoomDatabaseCallback)
                     .build();
-            //context.deleteDatabase("news_database6");
+            //context.deleteDatabase("news");
         }
         return instance;
     }
@@ -42,7 +42,7 @@ public abstract class NewsDatabase extends RoomDatabase {
                 dao.insert(new NewsElement("Первая новость", "Сегодня была сделана вкладка новостей", "07.05.23"));
                 dao.insert(new NewsElement("Удивительный факт!", "Она была сделана с помощью ROOM", "08.05.23"));
                 dao.insert(new NewsElement("Проверка", "Вы видите это сообщение? Да!? Круто!!", "08.05.23"));
-                dao.insert(new NewsElement("Проверка", "Проверка номер 2", "10.05.23"));
+
 
             });
         }

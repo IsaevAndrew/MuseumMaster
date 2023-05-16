@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/search"
     android:background="@color/yellow"
-    tools:context=".ui.SearchFragment">
+    tools:context=".ui.ExhibitionFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,14 +19,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:text="Поиск"
+            android:text="Маршруты"
             android:textColor="@color/blue"
             android:textSize="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/exhibitionsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/title"

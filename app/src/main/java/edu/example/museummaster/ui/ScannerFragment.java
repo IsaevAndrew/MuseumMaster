@@ -95,7 +95,7 @@ public class ScannerFragment extends Fragment {
                     transaction1.commit();
                     return true;
                 case R.id.search:
-                    fragment14 = new SearchFragment();
+                    fragment14 = new ExhibitionFragment();
                     FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                     transaction2.replace(R.id.container, fragment14).addToBackStack(null);
                     transaction2.commit();

@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new History_of_tickets()).addToBackStack(null)
+                        .replace(R.id.container, new HistoryOfTicketsFragment()).addToBackStack(null)
                         .commit();
             }
 

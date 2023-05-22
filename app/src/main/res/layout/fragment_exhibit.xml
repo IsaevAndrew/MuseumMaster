@@ -10,12 +10,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="157dp">
+        android:layout_marginBottom="40dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="match_parent"
@@ -26,9 +29,9 @@
 
             <ImageButton
                 android:id="@+id/back"
-                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@color/dark_yellow"
                 android:src="@drawable/arrow_back"
                 app:layout_constraintStart_toStartOf="@+id/imageView7"
@@ -36,22 +39,23 @@
 
             <ImageButton
                 android:id="@+id/like"
-                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/favorite"
+                android:layout_margin="5dp"
                 android:background="@color/dark_yellow"
                 android:drawableEnd="@drawable/like_selection"
+                android:src="@drawable/favorite"
                 app:layout_constraintEnd_toEndOf="@+id/imageView7"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/id"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:layout_marginTop="10dp"
+                android:text="Упс...."
                 android:textColor="@color/blue"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="@+id/imageView7"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -63,6 +67,7 @@
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:src="@drawable/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,31 +85,35 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical">
+
                     <SeekBar
-                        android:layout_marginTop="15dp"
+                        android:id="@+id/seekBar"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/seekBar"
+                        android:layout_marginTop="15dp"
                         tools:ignore="MissingConstraints" />
+
                     <Button
-                        android:layout_margin="15dp"
-                        android:text="@string/play"
-                        android:textSize="16dp"
-                        android:backgroundTint="@color/blue"
-                        android:textStyle="bold"
                         android:id="@+id/buttonPlay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_margin="15dp"
+                        android:backgroundTint="@color/black_green"
+                        android:text="@string/play"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
                         tools:ignore="MissingConstraints" />
+
                     <TextView
                         android:id="@+id/textViewDescription"
-                        android:textColor="@color/blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="" />
+                        android:text="Кажется произошла ошибка... Скоро она будет исправлена! Извините за неодубства "
+                        android:textColor="@color/blue" />
                 </LinearLayout>
             </RelativeLayout>
 

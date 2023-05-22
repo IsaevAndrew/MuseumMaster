@@ -38,15 +38,19 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     private boolean like = false;
     private int currentPos = 0;
     private final int UPDATE_INTERVAL = 1000;
+    public static Exhibit newInstance(int exhibitId) {
+        Exhibit fragment = new Exhibit();
+        Bundle args = new Bundle();
+        args.putInt("exhibitId", exhibitId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentExhibitBinding.inflate(inflater, container, false);
-
         // Создаем объект MediaPlayer и загружаем аудиофайл
-
-
         // Находим кнопку и SeekBar в макете и устанавливаем обработчики событий
         playButton = mBinding.buttonPlay;
         audioSeekBar = mBinding.seekBar;
@@ -72,7 +76,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
                 if (exhibit != null) {
                     mBinding.id.setText(exhibit.getName());
                     mBinding.textViewDescription.setText(exhibit.getDescription());
-                    System.out.println(exhibit.getPhotoName());
                     mBinding.imageView.setImageResource(getResources().getIdentifier(exhibit.getPhotoName(), "drawable", getContext().getPackageName()));
                     // Создание MediaPlayer
                     mediaPlayer = MediaPlayer.create(getContext(), getResources().getIdentifier(exhibit.getAudioName(), "raw", requireContext().getPackageName()));
@@ -98,11 +101,10 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
         mBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new ScannerFragment()  ).addToBackStack(null)
-                        .commit();
+                requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
+
         return mBinding.getRoot();
     }
 

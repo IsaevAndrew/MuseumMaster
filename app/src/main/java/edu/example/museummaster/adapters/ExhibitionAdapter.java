@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -16,14 +18,20 @@ import java.util.List;
 
 import edu.example.museummaster.R;
 import edu.example.museummaster.data.data_sourses.category.models.Exhibition;
+import edu.example.museummaster.ui.ExhibitViewPagerFragment;
 
 public class ExhibitionAdapter extends RecyclerView.Adapter<ExhibitionAdapter.ExhibitionViewHolder> {
     private List<Exhibition> exhibitionList;
     private Context context;
+    private OnItemClickListener onItemClickListener;
 
     public ExhibitionAdapter(List<Exhibition> exhibitionList, Context context) {
         this.exhibitionList = exhibitionList;
         this.context = context;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -41,11 +49,12 @@ public class ExhibitionAdapter extends RecyclerView.Adapter<ExhibitionAdapter.Ex
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Обработка клика на карточку экскурсии
-                // Здесь вы можете выполнить нужные действия при клике, например, открыть новый фрагмент
-                // или перейти на другую активность
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(exhibition.getId());
+                }
             }
         });
+
     }
 
     @Override
@@ -69,4 +78,9 @@ public class ExhibitionAdapter extends RecyclerView.Adapter<ExhibitionAdapter.Ex
             Glide.with(context).load(photoResourceId).into(photoImageView);
         }
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(int exhibitionId);
+    }
+
 }

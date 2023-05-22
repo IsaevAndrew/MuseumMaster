@@ -81,6 +81,16 @@ public class ExhibitionFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         loadExhibitionsFromFirestore();
 
+        // Установка слушателя кликов на адаптер
+        exhibitionAdapter.setOnItemClickListener(new ExhibitionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int exhibitionId) {
+                // Создание и отображение нового фрагмента ExhibitViewPagerFragment
+                ExhibitViewPagerFragment fragment = ExhibitViewPagerFragment.newInstance(exhibitionId);
+                navigateToFragment(fragment, exhibitionId);
+            }
+        });
+
         return view;
     }
 
@@ -88,13 +98,13 @@ public class ExhibitionFragment extends Fragment {
         firestore.collection("Route").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Integer id = documentSnapshot.getLong("Id").intValue();
                         String title = documentSnapshot.getString("Title");
                         String photoName = documentSnapshot.getString("PhotoName");
 
-                        Exhibition exhibition = new Exhibition(title, photoName);
+                        Exhibition exhibition = new Exhibition(id, title, photoName);
                         exhibitionList.add(exhibition);
                     }
-
                     exhibitionAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
@@ -107,4 +117,15 @@ public class ExhibitionFragment extends Fragment {
         transaction.replace(R.id.container, fragment).addToBackStack(null);
         transaction.commit();
     }
+
+    private void navigateToFragment(Fragment fragment, int exhibitId) {
+        Bundle args = new Bundle();
+        args.putInt("exhibitId", exhibitId);
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment).addToBackStack(null);
+        transaction.commit();
+    }
+
 }

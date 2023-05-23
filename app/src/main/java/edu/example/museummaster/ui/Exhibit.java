@@ -19,32 +19,42 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import edu.example.museummaster.R;
+import edu.example.museummaster.data.data_sourses.category.models.Favourite;
 import edu.example.museummaster.databinding.FragmentExhibitBinding;
 import edu.example.museummaster.ui.viewmodels.ExhibitViewModel;
 
 public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
     private ExhibitViewModel exhibitViewModel;
-    private TextView nameTextView;
-    private TextView descriptionTextView;
-    private ImageView imageView;
-
     private FragmentExhibitBinding mBinding;
     private Button playButton;
     private SeekBar audioSeekBar;
     private MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private boolean isPlaying = false;
-    private boolean like = false;
+    private boolean isLiked = false;
     private int currentPos = 0;
     private final int UPDATE_INTERVAL = 1000;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firestore;
+    private String userId;
+
     public static Exhibit newInstance(int exhibitId) {
         Exhibit fragment = new Exhibit();
         Bundle args = new Bundle();
-        args.putInt("exhibitId", exhibitId);
+        args.putInt("id", exhibitId);  // Use "id" as the key
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Nullable
     @Override
@@ -57,10 +67,9 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
         playButton.setOnClickListener(this);
         audioSeekBar.setOnSeekBarChangeListener(this);
 
-
-
         // Получаем ID выставки из аргументов и устанавливаем его в TextView
-        long id = getArguments().getInt("id", 0);
+        long id = getArguments().getInt("id", 1);
+
         mBinding.id.setText(mBinding.id.getText() + String.valueOf(id));
 
         // Устанавливаем цвет статус-бара (для Android 6.0 и выше)
@@ -68,6 +77,7 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setStatusBarColor(getContext().getColor(R.color.black_green));
         }
+        System.out.println(id);
 
         exhibitViewModel = new ViewModelProvider(this).get(ExhibitViewModel.class);
         exhibitViewModel.getExhibitById(id).observe(getViewLifecycleOwner(), new Observer<edu.example.museummaster.data.data_sourses.category.models.Exhibit>() {
@@ -88,15 +98,14 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
         mBinding.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (like) {
-                    like = false;
-                    mBinding.like.setImageResource(R.drawable.favorite2);
+                if (isLiked) {
+                    removeExhibitFromFavorites();
                 } else {
-                    like = true;
-                    mBinding.like.setImageResource(R.drawable.favorite);
+                    addExhibitToFavorites();
                 }
             }
         });
+
         // Находим кнопку "Назад" и устанавливаем обработчик события
         mBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +113,14 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
+
+        // Инициализация Firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
+
+        // Проверяем, добавлен ли экспонат в избранное
+        checkIfExhibitIsLiked();
 
         return mBinding.getRoot();
     }
@@ -168,5 +185,84 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
         mediaPlayer = null;
         isPlaying = false;
         handler.removeCallbacks(updateSeekBar);
+    }
+
+    private void addExhibitToFavorites() {
+        if (userId != null) {
+            String exhibitId = String.valueOf(getArguments().getInt("id"));
+            String exhibitTitle = mBinding.id.getText().toString();
+
+            // Создаем новый документ в коллекции "Favourite" с данными пользователя и экспоната
+            DocumentReference documentReference = firestore.collection("Favourite")
+                    .document(userId + "_" + exhibitId);
+            documentReference.set(new Favourite(userId, Integer.parseInt(exhibitId), exhibitTitle))
+
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            isLiked = true;
+                            mBinding.like.setImageResource(R.drawable.favorite2);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Ошибка при добавлении экспоната в избранное
+                        }
+                    });
+        }
+    }
+
+    private void removeExhibitFromFavorites() {
+        if (userId != null) {
+            String exhibitId = String.valueOf(getArguments().getInt("id"));
+
+            // Удаляем документ из коллекции "Favourite" с данными пользователя и экспоната
+            DocumentReference documentReference = firestore.collection("Favourite")
+                    .document(userId + "_" + exhibitId);
+            documentReference.delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            isLiked = false;
+                            mBinding.like.setImageResource(R.drawable.favorite);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Ошибка при удалении экспоната из избранного
+                        }
+                    });
+        }
+    }
+
+    private void checkIfExhibitIsLiked() {
+        if (userId != null) {
+            String exhibitId = String.valueOf(getArguments().getInt("id"));
+
+            // Проверяем наличие документа в коллекции "Favourite" с данными пользователя и экспоната
+            DocumentReference documentReference = firestore.collection("Favourite")
+                    .document(userId + "_" + exhibitId);
+            documentReference.get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                isLiked = true;
+                                mBinding.like.setImageResource(R.drawable.favorite2);
+                            } else {
+                                isLiked = false;
+                                mBinding.like.setImageResource(R.drawable.favorite);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Ошибка при проверке наличия экспоната в избранном
+                        }
+                    });
+        }
     }
 }

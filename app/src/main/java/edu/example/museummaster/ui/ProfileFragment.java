@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Favourite()).addToBackStack(null)
+                        .replace(R.id.container, new FavouriteFragment()).addToBackStack(null)
                         .commit();
             }
         });

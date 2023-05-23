@@ -51,10 +51,9 @@ public class ExhibitViewPagerFragment extends Fragment {
 
         List<Fragment> fragmentList = new ArrayList<>();
 
-        // Получите коллекцию Connect из Firestore, где IdRoute равен exhibitId
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         CollectionReference connectCollection = firestore.collection("Connect");
-        Query query = connectCollection.whereEqualTo("IdRoute", exhibitId);
+        Query query = connectCollection.whereEqualTo("IdRoute", exhibitId).orderBy("IdExhibit");
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -76,6 +75,7 @@ public class ExhibitViewPagerFragment extends Fragment {
                 ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentList, getChildFragmentManager(), getLifecycle());
                 mBinding.viewPager.setAdapter(adapter);
             } else {
+                System.out.println(task.getException());
                 // Обработка ошибки получения данных из Firestore
             }
         });

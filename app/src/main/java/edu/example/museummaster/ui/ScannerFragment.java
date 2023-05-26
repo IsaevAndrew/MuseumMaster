@@ -51,6 +51,7 @@ public class ScannerFragment extends Fragment {
             }
         }
     }
+
     private void startCamera() {
         if (!hasCameraPermission()) {
             requestCameraPermission();
@@ -87,7 +88,7 @@ public class ScannerFragment extends Fragment {
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
         bottomNavigationView.setSelectedItemId(R.id.scanner);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.home:
                     fragment14 = new HomeFragment();
                     FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
@@ -118,15 +119,11 @@ public class ScannerFragment extends Fragment {
             return false;
         });
         final Activity activity = getActivity();
-        int MY_PERMISSIONS_REQUEST_CAMERA=0;
-// Here, this is the current activity
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA))
-            {}
-            else
-            {
-                ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA );
+        int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
             }
         }
 
@@ -163,6 +160,7 @@ public class ScannerFragment extends Fragment {
         });
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();

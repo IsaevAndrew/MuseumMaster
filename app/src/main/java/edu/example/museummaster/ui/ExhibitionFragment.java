@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,6 @@ public class ExhibitionFragment extends Fragment {
                     navigateToFragment(homeFragment);
                     return true;
                 case R.id.search:
-                    // Already in the ExhibitionFragment
                     return true;
                 case R.id.ticket:
                     Fragment ticketFragment = new TicketFragment();
@@ -80,12 +78,9 @@ public class ExhibitionFragment extends Fragment {
 
         firestore = FirebaseFirestore.getInstance();
         loadExhibitionsFromFirestore();
-
-        // Установка слушателя кликов на адаптер
         exhibitionAdapter.setOnItemClickListener(new ExhibitionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int exhibitionId) {
-                // Создание и отображение нового фрагмента ExhibitViewPagerFragment
                 ExhibitViewPagerFragment fragment = ExhibitViewPagerFragment.newInstance(exhibitionId);
                 navigateToFragment(fragment, exhibitionId);
             }
@@ -108,7 +103,6 @@ public class ExhibitionFragment extends Fragment {
                     exhibitionAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    // Обработка ошибки при загрузке данных из Firestore
                 });
     }
 
@@ -127,5 +121,4 @@ public class ExhibitionFragment extends Fragment {
         transaction.replace(R.id.container, fragment).addToBackStack(null);
         transaction.commit();
     }
-
 }

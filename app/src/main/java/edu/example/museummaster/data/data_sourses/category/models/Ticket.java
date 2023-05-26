@@ -7,7 +7,6 @@ public class Ticket {
     private String entryDate;
 
     public Ticket() {
-        // Пустой конструктор необходим для Firebase Firestore
     }
 
     public Ticket(String userId, String tariff, String purchaseDate, String entryDate) {

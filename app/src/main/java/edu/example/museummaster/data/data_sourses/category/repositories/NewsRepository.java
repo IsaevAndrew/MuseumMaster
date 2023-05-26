@@ -1,6 +1,5 @@
 package edu.example.museummaster.data.data_sourses.category.repositories;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 

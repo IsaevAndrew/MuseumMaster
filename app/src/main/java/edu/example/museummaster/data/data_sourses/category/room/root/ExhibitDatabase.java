@@ -18,6 +18,7 @@ import edu.example.museummaster.data.data_sourses.category.room.dao.ExhibitDao;
 @Database(entities = {Exhibit.class}, version = 1)
 public abstract class ExhibitDatabase extends RoomDatabase {
     public abstract ExhibitDao exhibitDao();
+
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -35,13 +36,14 @@ public abstract class ExhibitDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             databaseWriteExecutor.execute(() -> {
                 ExhibitDao dao = INSTANCE.exhibitDao();
-                dao.insert(new Exhibit(1, "История Костромы","Каменная застройка Костромы проводилась по градостроительному плану, принятому после грандиозного пожара 1773 года, уничтожившего большую часть города. В соответствии с ним улицы спрямили и дома стали возводить по красной линии застройки.", "test_image", "test_audio"));
+                dao.insert(new Exhibit(1, "История Костромы", "Каменная застройка Костромы проводилась по градостроительному плану, принятому после грандиозного пожара 1773 года, уничтожившего большую часть города. В соответствии с ним улицы спрямили и дома стали возводить по красной линии застройки.", "test_image", "test_audio"));
                 dao.insert(new Exhibit(2, "Центр Костромы", "Центр Костромы — это огромная Сусанинская площадь, которая раскинулась по обеим сторонам Советской улицы. Её северо-восточная часть в народе ласково зовется «Сковородкой». В самом центре «Сковородки», по аналогии с другими областными центрами, находится нулевой меридиан.", "test_image2", "test_audio2"));
                 dao.insert(new Exhibit(3, "Пёс Бобка", "Помимо памятника Сусанину, в центре есть «малая архитектурная форма» пожарному псу Бобке. Эта собака в 19 веке жила в пожарной охране и спасала жизни людям. Рядом с памятником расположен шар — копилка, куда каждый желающий может бросить монетку в качестве пожертвования Городскому Центру передержки животных. Загадайте желание и потрите нос Бобке, говорят, оно обязательно сбудется.", "test_image3", "test_audio3"));
                 dao.insert(new Exhibit(4, "Историческая часть Костромы", "Историческая часть Костромы имеет радиально-полукольцовую планировку — от Сусанинской площади в разные стороны отходят улицы, словно лучики солнца. Существует легенда, что Екатерина II на вопрос, какой бы она хотела видеть Кострому, развернула свой веер. Так и выстроили улицы, по веерной планировке императрицы. По сей день, если взглянуть на Кострому с высоты, то кажется, что лежит огромный веер.", "test_image4", "test_audio4"));

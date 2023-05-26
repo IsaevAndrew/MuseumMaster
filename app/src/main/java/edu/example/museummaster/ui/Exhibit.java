@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,7 +48,7 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     public static Exhibit newInstance(int exhibitId) {
         Exhibit fragment = new Exhibit();
         Bundle args = new Bundle();
-        args.putInt("id", exhibitId);  // Use "id" as the key
+        args.putInt("id", exhibitId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,19 +58,13 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentExhibitBinding.inflate(inflater, container, false);
-        // Создаем объект MediaPlayer и загружаем аудиофайл
-        // Находим кнопку и SeekBar в макете и устанавливаем обработчики событий
         playButton = mBinding.buttonPlay;
         audioSeekBar = mBinding.seekBar;
         playButton.setOnClickListener(this);
         audioSeekBar.setOnSeekBarChangeListener(this);
-
-        // Получаем ID выставки из аргументов и устанавливаем его в TextView
         long id = getArguments().getInt("id", 1);
 
         mBinding.id.setText(mBinding.id.getText() + String.valueOf(id));
-
-        // Устанавливаем цвет статус-бара (для Android 6.0 и выше)
         Window window = getActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setStatusBarColor(getContext().getColor(R.color.black_green));
@@ -87,9 +79,7 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
                     mBinding.id.setText(exhibit.getName());
                     mBinding.textViewDescription.setText(exhibit.getDescription());
                     mBinding.imageView.setImageResource(getResources().getIdentifier(exhibit.getPhotoName(), "drawable", getContext().getPackageName()));
-                    // Создание MediaPlayer
                     mediaPlayer = MediaPlayer.create(getContext(), getResources().getIdentifier(exhibit.getAudioName(), "raw", requireContext().getPackageName()));
-                    // Устанавливаем максимальное значение SeekBar равным длительности аудиофайла в миллисекундах
                     audioSeekBar.setMax(mediaPlayer.getDuration());
                 }
             }
@@ -106,7 +96,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
             }
         });
 
-        // Находим кнопку "Назад" и устанавливаем обработчик события
         mBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,12 +103,9 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
             }
         });
 
-        // Инициализация Firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
-
-        // Проверяем, добавлен ли экспонат в избранное
         checkIfExhibitIsLiked();
 
         return mBinding.getRoot();
@@ -128,7 +114,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     @Override
     public void onClick(View v) {
         if (v == playButton) {
-            // Если аудио воспроизводится, останавливаем воспроизведение и меняем надпись на кнопке
             if (isPlaying) {
                 mediaPlayer.pause();
                 playButton.setText("Play");
@@ -146,7 +131,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            // Перематываем аудиофайл на выбранную позицию
             mediaPlayer.seekTo(progress);
             currentPos = progress;
         }
@@ -154,13 +138,11 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        // При начале перемотки SeekBar останавливаем обновление SeekBar
         handler.removeCallbacks(updateSeekBar);
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        // При окончании перемотки SeekBar начинаем обновление SeekBar
         handler.postDelayed(updateSeekBar, UPDATE_INTERVAL);
     }
 
@@ -168,7 +150,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
         @Override
         public void run() {
             if (isPlaying) {
-                // Обновляем положение SeekBar каждые 1000 миллисекунд
                 currentPos = mediaPlayer.getCurrentPosition();
                 audioSeekBar.setProgress(currentPos);
             }
@@ -179,7 +160,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     @Override
     public void onStop() {
         super.onStop();
-        // Останавливаем воспроизведение аудиофайла и очищаем MediaPlayer
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
@@ -192,7 +172,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
             String exhibitId = String.valueOf(getArguments().getInt("id"));
             String exhibitTitle = mBinding.id.getText().toString();
 
-            // Создаем новый документ в коллекции "Favourite" с данными пользователя и экспоната
             DocumentReference documentReference = firestore.collection("Favourite")
                     .document(userId + "_" + exhibitId);
             documentReference.set(new Favourite(userId, Integer.parseInt(exhibitId), exhibitTitle))
@@ -216,8 +195,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     private void removeExhibitFromFavorites() {
         if (userId != null) {
             String exhibitId = String.valueOf(getArguments().getInt("id"));
-
-            // Удаляем документ из коллекции "Favourite" с данными пользователя и экспоната
             DocumentReference documentReference = firestore.collection("Favourite")
                     .document(userId + "_" + exhibitId);
             documentReference.delete()
@@ -240,8 +217,6 @@ public class Exhibit extends Fragment implements View.OnClickListener, SeekBar.O
     private void checkIfExhibitIsLiked() {
         if (userId != null) {
             String exhibitId = String.valueOf(getArguments().getInt("id"));
-
-            // Проверяем наличие документа в коллекции "Favourite" с данными пользователя и экспоната
             DocumentReference documentReference = firestore.collection("Favourite")
                     .document(userId + "_" + exhibitId);
             documentReference.get()

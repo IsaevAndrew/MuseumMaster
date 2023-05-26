@@ -30,6 +30,7 @@ public class ProfileFragment extends Fragment {
     private AuthViewModel authViewModel;
     FragmentProfileBinding mBinding;
     Fragment fragment14;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class ProfileFragment extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mBinding.userEmailTextView.setText(currentUser.getEmail());
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.home:
                     fragment14 = new HomeFragment();
                     FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
@@ -81,7 +82,6 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.favourite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new FavouriteFragment()).addToBackStack(null)
                         .commit();
@@ -90,7 +90,6 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.future_tickets).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new My_tickets()).addToBackStack(null)
                         .commit();
@@ -99,12 +98,10 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.last_tickets).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new HistoryOfTicketsFragment()).addToBackStack(null)
                         .commit();
             }
-
         });
         view.findViewById(R.id.faq).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +111,6 @@ public class ProfileFragment extends Fragment {
                         .setMessage("Данное приложение создано в рамках проекта IT Академия Samsung")
                         .setPositiveButton("Закрыть", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // Обработка нажатия кнопки "Закрыть"
                                 dialog.dismiss();
                             }
                         })
@@ -129,6 +125,7 @@ public class ProfileFragment extends Fragment {
         });
         return view;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -157,6 +154,7 @@ public class ProfileFragment extends Fragment {
         });
 
     }
+
     private void deleteAccount() {
         authViewModel.deleteAccount();
     }
@@ -164,6 +162,7 @@ public class ProfileFragment extends Fragment {
     private void logoutUser() {
         authViewModel.logoutUser();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

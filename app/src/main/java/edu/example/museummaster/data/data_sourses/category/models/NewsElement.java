@@ -1,5 +1,4 @@
 package edu.example.museummaster.data.data_sourses.category.models;
-import android.util.Log;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

@@ -21,7 +21,6 @@ public class TicketDatabase {
         }
         return instance;
     }
-
     public CollectionReference getTicketsCollection() {
         return firestore.collection(COLLECTION_TICKETS);
     }

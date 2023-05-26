@@ -44,16 +44,12 @@ public class TicketFragment extends Fragment {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-// Устанавливаем время в полночь
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         DatePicker datePicker = view.findViewById(R.id.datePicker);
-// Устанавливаем минимальную дату для DatePicker
         datePicker.setMinDate(calendar.getTimeInMillis());
-        // Inside onCreateView() method of TicketFragment
         ticketRepository = new TicketRepository(getActivity().getApplicationContext());
 
 
@@ -66,12 +62,10 @@ public class TicketFragment extends Fragment {
                 int year = datePicker.getYear();
                 int month = datePicker.getMonth();
                 int day = datePicker.getDayOfMonth();
-
-                // Get the current date and format it
                 Calendar currentDate = Calendar.getInstance();
                 String purchaseDate = String.format("%d.%d.%d", currentDate.get(Calendar.DAY_OF_MONTH),
                         currentDate.get(Calendar.MONTH) + 1, currentDate.get(Calendar.YEAR));
-                String entryDate = String.format("%d.%d.%d", day, month+1, year);
+                String entryDate = String.format("%d.%d.%d", day, month + 1, year);
 
                 // Create a new ticket with the necessary fields
                 Ticket ticketData = new Ticket(currentUser.getUid(), tariff, purchaseDate, entryDate);
@@ -94,7 +88,6 @@ public class TicketFragment extends Fragment {
                                         })
                                         .show();
                             } else {
-                                // Handle the error
                             }
                         });
             }

@@ -41,14 +41,10 @@ public class My_tickets extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentMyTicketsBinding.inflate(inflater, container, false);
-
-        // Устанавливаем цвет статус-бара (для Android 6.0 и выше)
         Window window = getActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setStatusBarColor(getContext().getColor(R.color.black_green));
         }
-
-        // Находим кнопку "Назад" и устанавливаем обработчик события
         mBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,18 +61,15 @@ public class My_tickets extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(ticketAdapter);
-
         loadTickets();
-
         return mBinding.getRoot();
     }
-    private void loadTickets() {
-        // Получаем текущую дату
-        Calendar calendar = Calendar.getInstance();
-        Date currentDate = calendar.getTime();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Получаем билеты текущего пользователя, дата которых больше или равна текущей дате
+    private void loadTickets() {
+        Calendar calendar = Calendar.getInstance();
+        final Date currentDate = calendar.getTime(); // Create a final variable
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         ticketRepository.getTicketsByUserId(currentUser.getUid())
                 .addOnSuccessListener(querySnapshot -> {
                     ticketList.clear();
@@ -85,16 +78,30 @@ public class My_tickets extends Fragment {
                             String entryDateString = ticket.getEntryDate();
                             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                             Date entryDate = format.parse(entryDateString);
-                            System.out.println(entryDate);
-                            if (entryDate != null && entryDate.compareTo(currentDate) >= 0) {
-                                ticketList.add(ticket);
+                            if (entryDate != null) {
+                                calendar.setTime(entryDate);
+                                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                                calendar.set(Calendar.MINUTE, 0);
+                                calendar.set(Calendar.SECOND, 0);
+                                calendar.set(Calendar.MILLISECOND, 0);
+                                Date entryDateStartOfDay = calendar.getTime();
+
+                                calendar.setTime(currentDate);
+                                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                                calendar.set(Calendar.MINUTE, 0);
+                                calendar.set(Calendar.SECOND, 0);
+                                calendar.set(Calendar.MILLISECOND, 0);
+                                Date currentDateStartOfDay = calendar.getTime();
+
+                                if (entryDateStartOfDay.compareTo(currentDateStartOfDay) >= 0) {
+                                    ticketList.add(ticket);
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                     ticketAdapter.notifyDataSetChanged();
-                    // Показываем или скрываем текстовое поле, если список билетов пуст
                     if (ticketList.isEmpty()) {
                         mBinding.emptyTextView.setVisibility(View.VISIBLE);
                     } else {
@@ -102,9 +109,6 @@ public class My_tickets extends Fragment {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // Обработка ошибки
                 });
     }
-
-
 }

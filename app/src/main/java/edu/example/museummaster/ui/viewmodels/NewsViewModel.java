@@ -32,6 +32,7 @@ public class NewsViewModel extends AndroidViewModel {
     public void delete(NewsElement news) {
         newsRepository.delete(news);
     }
+
     public void deleteAll() {
         newsRepository.deleteAll();
     }

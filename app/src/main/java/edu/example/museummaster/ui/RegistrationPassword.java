@@ -23,6 +23,7 @@ public class RegistrationPassword extends Fragment {
     private FragmentRegistrationPasswordBinding mBinding;
     private AuthViewModel authViewModel;
     private String email;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class RegistrationPassword extends Fragment {
         });
         return mBinding.getRoot();
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

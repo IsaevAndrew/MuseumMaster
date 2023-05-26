@@ -11,12 +11,7 @@ import java.util.List;
 
 import edu.example.museummaster.data.data_sourses.category.models.Exhibit;
 
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.Query;
 import androidx.room.Update;
-
-import java.util.List;
 
 @Dao
 public interface ExhibitDao {

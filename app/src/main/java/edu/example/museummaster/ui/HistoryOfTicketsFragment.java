@@ -35,39 +35,27 @@ public class HistoryOfTicketsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentHistoryOfTicketsBinding.inflate(inflater, container, false);
         mTicketRepository = new TicketRepository(requireContext());
-
-        // Устанавливаем цвет статус-бара (для Android 6.0 и выше)
         Window window = requireActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setStatusBarColor(requireContext().getColor(R.color.black_green));
         }
-
-        // Находим кнопку "Назад" и устанавливаем обработчик события
         mBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().popBackStack();
             }
         });
-
-        // Отображаем список билетов
         showTickets();
-
         return mBinding.getRoot();
     }
 
     private void showTickets() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        // Получаем идентификатор пользователя (замените на ваш способ получения идентификатора)
         String userId = currentUser.getUid();
-
-        // Получаем список всех купленных билетов пользователя из репозитория
         mTicketRepository.getTicketsByUserId(userId).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<Ticket> ticketList = queryDocumentSnapshots.toObjects(Ticket.class);
-
-                // Создаем и устанавливаем адаптер для списка билетов
                 TicketAdapter ticketAdapter = new TicketAdapter(ticketList);
                 mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 mBinding.recyclerView.setAdapter(ticketAdapter);

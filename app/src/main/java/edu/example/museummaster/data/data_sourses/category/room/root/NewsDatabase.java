@@ -40,10 +40,8 @@ public abstract class NewsDatabase extends RoomDatabase {
                 NewsDao dao = instance.newsDao();
                 dao.deleteAll();
                 dao.insert(new NewsElement("Первая новость", "Сегодня была сделана вкладка новостей", "07.05.23"));
-                dao.insert(new NewsElement("Удивительный факт!", "Она была сделана с помощью ROOM", "08.05.23"));
-                dao.insert(new NewsElement("Проверка", "Вы видите это сообщение? Да!? Круто!!", "08.05.23"));
-
-
+                dao.insert(new NewsElement("Расписание на 9 мая!", "Завтра наш музей работает с 10:00 до 18:00", "08.05.23"));
+                dao.insert(new NewsElement("Закрытие!", "В период с 22.05.2023 до 29.05.2023 музей будет закрыт на реконструкцию", "18.05.23"));
             });
         }
     };

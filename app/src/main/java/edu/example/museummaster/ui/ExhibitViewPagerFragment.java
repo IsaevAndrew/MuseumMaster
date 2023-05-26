@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -58,54 +57,37 @@ public class ExhibitViewPagerFragment extends Fragment {
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    // Получите IdExhibit из каждого документа коллекции Connect
                     int idExhibit = document.getLong("IdExhibit").intValue();
-
-                    // Создайте фрагмент Exhibit и передайте ему idExhibit
                     Exhibit fragment = new Exhibit();
                     Bundle bundle = new Bundle();
                     bundle.putInt("id", idExhibit);
                     fragment.setArguments(bundle);
-
-                    // Добавьте фрагмент в список
                     fragmentList.add(fragment);
                 }
-
-                // Создайте адаптер и установите его для viewPager
                 ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentList, getChildFragmentManager(), getLifecycle());
                 mBinding.viewPager.setAdapter(adapter);
             } else {
                 System.out.println(task.getException());
-                // Обработка ошибки получения данных из Firestore
             }
         });
         ImageButton buttonPrevious = view.findViewById(R.id.buttonPrevious);
         ImageButton buttonNext = view.findViewById(R.id.buttonNext);
-
-        // Получите ссылку на ViewPager
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
-
-        // Установите слушатель для кнопки "Вперед"
         buttonNext.setOnClickListener(v -> {
             int currentItem = viewPager.getCurrentItem();
             if (currentItem < viewPager.getAdapter().getItemCount() - 1) {
                 viewPager.setCurrentItem(currentItem + 1);
             }
         });
-
-        // Установите слушатель для кнопки "Назад"
         buttonPrevious.setOnClickListener(v -> {
             int currentItem = viewPager.getCurrentItem();
             if (currentItem > 0) {
                 viewPager.setCurrentItem(currentItem - 1);
             }
         });
-
-        // Установите слушатель изменений страницы ViewPager
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                // Проверьте текущую позицию и скройте или покажите соответствующие кнопки
                 buttonPrevious.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
                 buttonNext.setVisibility(position == viewPager.getAdapter().getItemCount() - 1 ? View.INVISIBLE : View.VISIBLE);
             }

@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import edu.example.museummaster.R;
-import edu.example.museummaster.databinding.FragmentAuthorizationBinding;
 import edu.example.museummaster.databinding.FragmentFirstBinding;
 import edu.example.museummaster.ui.viewmodels.AuthState;
 import edu.example.museummaster.ui.viewmodels.AuthViewModel;
@@ -22,6 +21,7 @@ import edu.example.museummaster.ui.viewmodels.AuthViewModel;
 public class First extends Fragment {
     FragmentFirstBinding mBinding;
     private AuthViewModel authViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,7 +33,6 @@ public class First extends Fragment {
         mBinding.aut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new Authorization()).addToBackStack(null)
                         .commit();
@@ -50,13 +49,13 @@ public class First extends Fragment {
         });
         return mBinding.getRoot();
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         authViewModel.getAuthStateLiveData().observe(getViewLifecycleOwner(), authState -> {
             if (authState == AuthState.AUTHENTICATED) {
-                // Переход на экран после успешной авторизации
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new HomeFragment())
                         .commit();

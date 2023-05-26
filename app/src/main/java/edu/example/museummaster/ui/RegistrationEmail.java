@@ -10,10 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import edu.example.museummaster.R;
 import edu.example.museummaster.databinding.FragmentRegistrationEmailBinding;
@@ -22,6 +19,7 @@ import edu.example.museummaster.ui.viewmodels.AuthViewModel;
 public class RegistrationEmail extends Fragment {
     private FragmentRegistrationEmailBinding mBinding;
     private AuthViewModel authViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class RegistrationEmail extends Fragment {
         mBinding.auto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new Authorization()).addToBackStack(null)
                         .commit();
@@ -72,8 +69,8 @@ public class RegistrationEmail extends Fragment {
         super.onDestroyView();
         mBinding = null;
     }
+
     private boolean isEmailValid(String email) {
-        // Проверка корректности адреса электронной почты (можно использовать регулярное выражение или другой подход)
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

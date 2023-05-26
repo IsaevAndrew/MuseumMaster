@@ -8,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,7 +16,6 @@ import java.util.List;
 
 import edu.example.museummaster.R;
 import edu.example.museummaster.data.data_sourses.category.models.Exhibition;
-import edu.example.museummaster.ui.ExhibitViewPagerFragment;
 
 public class ExhibitionAdapter extends RecyclerView.Adapter<ExhibitionAdapter.ExhibitionViewHolder> {
     private List<Exhibition> exhibitionList;

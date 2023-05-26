@@ -3,8 +3,6 @@ package edu.example.museummaster.data.data_sourses.category.room.entites;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exhibits")
 public class Exhibit {

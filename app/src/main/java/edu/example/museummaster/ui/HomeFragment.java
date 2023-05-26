@@ -26,46 +26,6 @@ public class HomeFragment extends Fragment {
     private NewsViewModel newsViewModel;
     Fragment fragment14;
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_home, container, false);
-//        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
-//        bottomNavigationView.setSelectedItemId(R.id.home);
-//        bottomNavigationView.setOnItemSelectedListener(item -> {
-//            switch (item.getItemId()){
-//                case R.id.home:
-//                    return true;
-//                case R.id.search:
-//                    fragment14 = new Search();
-//                    FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
-//                    transaction2.replace(R.id.container, fragment14).addToBackStack(null);
-//                    transaction2.commit();
-//                    return true;
-//                case R.id.ticket:
-//                    fragment14 = new Ticket();
-//                    FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
-//                    transaction3.replace(R.id.container, fragment14).addToBackStack(null);
-//                    transaction3.commit();
-//                    return true;
-//                case R.id.scanner:
-//                    fragment14 = new Scanner();
-//                    FragmentTransaction transaction4 = getFragmentManager().beginTransaction();
-//                    transaction4.replace(R.id.container, fragment14).addToBackStack(null);
-//                    transaction4.commit();
-//                    return true;
-//                case R.id.profile:
-//                    fragment14 = new Profile();
-//                    FragmentTransaction transaction5 = getFragmentManager().beginTransaction();
-//                    transaction5.replace(R.id.container, fragment14).addToBackStack(null);
-//                    transaction5.commit();
-//                    return true;
-//            }
-//            return false;
-//        });
-//        return view;
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,7 +46,7 @@ public class HomeFragment extends Fragment {
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottonNavigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.home:
                     return true;
                 case R.id.search:

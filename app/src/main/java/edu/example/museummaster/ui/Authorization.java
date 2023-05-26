@@ -36,7 +36,6 @@ public class Authorization extends Fragment {
         mBinding.newacc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Переход на второй фрагмент
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new RegistrationEmail()).addToBackStack(null)
                         .commit();
@@ -44,6 +43,7 @@ public class Authorization extends Fragment {
         });
         return mBinding.getRoot();
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -62,7 +62,6 @@ public class Authorization extends Fragment {
         });
         authViewModel.getAuthStateLiveData().observe(getViewLifecycleOwner(), authState -> {
             if (authState == AuthState.AUTHENTICATED) {
-                // Переход на экран после успешной авторизации
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.container, new HomeFragment())
                         .commit();
@@ -74,6 +73,7 @@ public class Authorization extends Fragment {
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

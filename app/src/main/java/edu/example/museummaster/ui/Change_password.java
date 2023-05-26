@@ -32,8 +32,6 @@ public class Change_password extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentChangePasswordBinding.inflate(inflater, container, false);
-
-        // Устанавливаем цвет статус-бара (для Android 6.0 и выше)
         Window window = getActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.setStatusBarColor(getContext().getColor(R.color.black_green));
@@ -49,7 +47,6 @@ public class Change_password extends Fragment {
             }
         });
 
-        // Находим кнопку "Назад" и устанавливаем обработчик события
         mBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +97,7 @@ public class Change_password extends Fragment {
                     });
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

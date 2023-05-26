@@ -1,19 +1,14 @@
 package edu.example.museummaster.data.data_sourses.category.repositories;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import edu.example.museummaster.data.data_sourses.category.models.Exhibit;
 import edu.example.museummaster.data.data_sourses.category.room.dao.ExhibitDao;
 import edu.example.museummaster.data.data_sourses.category.room.root.ExhibitDatabase;
-import edu.example.museummaster.data.data_sourses.category.room.root.NewsDatabase;
 
 public class ExhibitRepository {
     private ExhibitDao exhibitDao;
